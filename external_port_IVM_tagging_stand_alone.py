@@ -244,9 +244,10 @@ def keep_latest_n_folders(directory, n):
     for _, foldername, folder_path in folders_to_keep:
         print(f" - {foldername}")
 
-    # Optionally, remove the other folders
+    # Remove the folders that are not in the 'keep' list
     for _, foldername, folder_path in folders_to_remove:
-        os.rmdir(folder_path)  # Remove the folder (make sure it's empty)
+        # Recursively delete the folder and its contents
+        shutil.rmtree(folder_path)
         print(f"Removed: {foldername}")
 
 def extract_row_and_create_file(row_name, csv_file_path, output_file_path):
