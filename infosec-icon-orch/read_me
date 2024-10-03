@@ -1,4 +1,7 @@
-[mhammett@infosec-icon-orch external_port_IVM_tagging]$ pwd
-/home/mhammett/robot/external_port_IVM_tagging
+[mhammett@infosec-icon-orch robot]$ pwd
+/home/mhammett/robot
+[mhammett@infosec-icon-orch robot]$ ls
+config.ini  external_port_IVM_tagging
+[mhammett@infosec-icon-orch robot]$ cd external_port_IVM_tagging/
 [mhammett@infosec-icon-orch external_port_IVM_tagging]$ ls
 data  external_port_IVM_tagging_stand_alone.py  nmap_f_from_file.sh  test_url.py
