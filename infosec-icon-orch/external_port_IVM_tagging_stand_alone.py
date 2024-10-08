@@ -470,7 +470,8 @@ def get_assets_by_tag(tag_id):
     response = requests.get(url, auth=(uname, passw))
     if response.status_code == 200:
         response_json = response.json()
-        asset_count = len(response_json['resources'])
+        resources = response_json.get('resources', [])
+        asset_count = len(resources)
         return asset_count
     else:
         # Handle errors
@@ -531,7 +532,10 @@ try:
             tag_count = get_assets_by_tag(row['ID'])
             port = row['Name'].split(':')[1]
             appended_slack_massage += f'{port}:{tag_count}\n'
-
+except Exception as e:
+    print(f"An error occurred: {str(e)}")
+    send_slack_message(slack_channel,'`<External Port Labeling>` There was an error tagging')
+try:
     print('Renaming report file')
     rename_file(f'{folder_name}/report.csv', 'previous')
     print('Moving files for archiving')
