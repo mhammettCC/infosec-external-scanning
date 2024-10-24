@@ -220,8 +220,15 @@ def find_all_timestamped_folders(directory):
 
 
 def keep_latest_n_folders(directory, n):
-    # Example usage
+    """
+    Keeps the latest n folders based on their timestamp and removes the rest.
+
+    :param directory: The directory containing timestamped folders.
+    :param n: Number of latest folders to keep.
+    """
+    # Example usage:
     # keep_latest_n_folders('/path/to/your/directory', 3)
+
     # Find all timestamped folders
     timestamped_folders = find_all_timestamped_folders(directory)
 
@@ -233,14 +240,18 @@ def keep_latest_n_folders(directory, n):
     folders_to_remove = timestamped_folders[n:]  # The rest will be removed
 
     # Print folders to keep
-    print(f"Keeping the latest {n} folders:")
+    print(f"<keep_latest_n_folders> Keeping the latest {n} folders:")
     for _, foldername, folder_path in folders_to_keep:
         print(f" - {foldername}")
 
-    # Optionally, remove the other folders
+    # Remove the folders that are not in the 'keep' list
     for _, foldername, folder_path in folders_to_remove:
-        os.rmdir(folder_path)  # Remove the folder (make sure it's empty)
-        print(f"Removed: {foldername}")
+        try:
+            # Recursively delete the folder and its contents
+            shutil.rmtree(folder_path)
+            print(f"<keep_latest_n_folders> Removed: {foldername}")
+        except Exception as e:
+            print(f"<keep_latest_n_folders> Failed to remove {foldername}. Error: {e}")
 
 def extract_row_and_create_file(row_name, csv_file_path, output_file_path):
     output = []
