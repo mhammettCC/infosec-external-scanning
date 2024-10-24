@@ -227,8 +227,15 @@ def find_all_timestamped_folders(directory):
 
 
 def keep_latest_n_folders(directory, n):
-    # Example usage
+    """
+    Keeps the latest n folders based on their timestamp and removes the rest.
+
+    :param directory: The directory containing timestamped folders.
+    :param n: Number of latest folders to keep.
+    """
+    # Example usage:
     # keep_latest_n_folders('/path/to/your/directory', 3)
+
     # Find all timestamped folders
     timestamped_folders = find_all_timestamped_folders(directory)
 
@@ -240,15 +247,18 @@ def keep_latest_n_folders(directory, n):
     folders_to_remove = timestamped_folders[n:]  # The rest will be removed
 
     # Print folders to keep
-    print(f"Keeping the latest {n} folders:")
+    print(f"<keep_latest_n_folders> Keeping the latest {n} folders:")
     for _, foldername, folder_path in folders_to_keep:
         print(f" - {foldername}")
 
     # Remove the folders that are not in the 'keep' list
     for _, foldername, folder_path in folders_to_remove:
-        # Recursively delete the folder and its contents
-        shutil.rmtree(folder_path)
-        print(f"Removed: {foldername}")
+        try:
+            # Recursively delete the folder and its contents
+            shutil.rmtree(folder_path)
+            print(f"<keep_latest_n_folders> Removed: {foldername}")
+        except Exception as e:
+            print(f"<keep_latest_n_folders> Failed to remove {foldername}. Error: {e}")
 
 def extract_row_and_create_file(row_name, csv_file_path, output_file_path):
     output = []
@@ -520,6 +530,7 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel, '`<External Port Labeling>` There was an error downloading the report or converting the target list')
+    raise
 
 try:
     input('Press Enter after Dropping VPN')
@@ -528,6 +539,7 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel, '`<External Port Labeling>` There was an error running the nmap scan')
+    raise
 try:
     input('Press Enter after VPN re-established')
     print(">>>>>>>>>>>>>TAGGING ASSETS")
@@ -550,3 +562,4 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel, '`<External Port Labeling>` There was an error tagging, moving, or comparing results')
+    raise
