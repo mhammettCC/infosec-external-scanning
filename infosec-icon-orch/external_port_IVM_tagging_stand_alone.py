@@ -521,7 +521,7 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel, '`<External Port Labeling>` There was an error running the nmap scan')
-    break
+    raise
 try:
     # input('Press Enter after VPN re-established')
     print(">>>>>>>>>>>>>TAGGING ASSETS")
@@ -536,7 +536,7 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel,'`<External Port Labeling>` There was an error tagging')
-    break
+    raise
 try:
     print('Renaming report file')
     rename_file(f'{folder_name}/report.csv', 'previous')
@@ -548,4 +548,4 @@ try:
 except Exception as e:
     print(f"An error occurred: {str(e)}")
     send_slack_message(slack_channel, '`<External Port Labeling>` There was an error tagging, moving, or comparing results')
-    break
+    raise
